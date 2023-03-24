@@ -1,46 +1,80 @@
+// UPDATED mergeSort
+
 function mergeSort(arr) {
-  if (arr.length === 1) {
+  if (arr.length <= 1) {
     return arr;
   }
-  const mid = arr.length / 2;
+  const mid = Math.floor(arr.length / 2);
   const arrLeft = arr.slice(0, mid);
-  mergeSort(arrLeft);
   const arrRight = arr.slice(mid, arr.length);
-  mergeSort(arrRight);
+  const sortedLeft = mergeSort(arrLeft);
+  const sortedRight = mergeSort(arrRight);
 
-  const tempArr = [arrLeft, arrRight];
-  const finalArr = [];
-
-  console.log(tempArr[1][0]);
-
+  const mergedArr = [];
   let i = 0;
   let j = 0;
 
-  while (tempArr.length >= 0) {
-    if (tempArr[0][i] > tempArr[1][j]) {
-      finalArr.push(tempArr[1][j]);
-      tempArr.splice(tempArr.indexOf(tempArr[1][j]), 1);
-      j++;
-    } else if (tempArr[0][i] < tempArr[1][j]) {
-      finalArr.push(tempArr[0][i]);
-      tempArr.splice(tempArr.indexOf(tempArr[1][j]), 1);
+  while (i < sortedLeft.length && j < sortedRight.length) {
+    if (sortedLeft[i] <= sortedRight[j]) {
+      mergedArr.push(sortedLeft[i]);
       i++;
+    } else {
+      mergedArr.push(sortedRight[j]);
+      j++;
     }
   }
 
-  console.log(tempArr.length);
-  // for (let i = 0; i < arrLeft.length; i++) {
-  //   for (let j = 0; j < arrRight.length; j++) {
-  //     if (arrLeft[i] > arrRight[j]) {
-  //       const smaller = arrRight[j];
-  //       const bigger = arrLeft[i];
-  //       arrLeft[i] = smaller;
-  //       arrRight[j] = bigger;
-  //     }
-  //   }
-  // }
+  while (i < sortedLeft.length) {
+    mergedArr.push(sortedLeft[i]);
+    i++;
+  }
 
-  return finalArr;
+  while (j < sortedRight.length) {
+    mergedArr.push(sortedRight[j]);
+    j++;
+  }
+
+  return mergedArr;
 }
 
-console.log(mergeSort([4, 3, 1, 2]));
+console.log(mergeSort([2, 1]));
+
+// OLD MERGE SORT BELOW, keeping for review purposes
+
+// function mergeSort(arr) {
+//   if (arr.length === 1) {
+//     return arr;
+//   }
+//   const mid = arr.length / 2;
+//   const arrLeft = arr.slice(0, mid);
+//   mergeSort(arrLeft);
+//   const arrRight = arr.slice(mid, arr.length);
+//   mergeSort(arrRight);
+
+//   let i = 0;
+//   let j = 0;
+
+//   const mergedArr = [];
+
+//   while (i < arrLeft.length && j < arrRight.length) {
+//     if (arrLeft[i] > arrRight[j]) {
+//       mergedArr.push(arrRight[j]);
+//       j++;
+//     } else if (arrLeft[i] < arrRight[j]) {
+//       mergedArr.push(arrLeft[i]);
+//       i++;
+//     }
+//   }
+
+//   while (i < arrLeft.length) {
+//     mergedArr.push(arrLeft[i]);
+//     i++;
+//   }
+
+//   while (j < arrRight.length) {
+//     mergedArr.push(arrRight[j]);
+//     j++;
+//   }
+
+//   return mergedArr;
+// }
