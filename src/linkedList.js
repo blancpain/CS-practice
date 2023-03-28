@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 class Node {
   constructor(value = null, nextNode = null) {
     this._value = value;
@@ -25,15 +26,89 @@ class LinkedList {
   constructor() {
     this.head = null;
   }
+
+  prepend(value) {
+    this.head = new Node(value, this.head);
+  }
+
   append(value) {
-    return new Node(value, null);
+    if (this.head === null) this.prepend(value);
+    else {
+      let temp = this.head;
+      while (temp.nextNode !== null) {
+        temp = temp.nextNode;
+      }
+      temp.nextNode = new Node(value, null);
+    }
+  }
+
+  get size() {
+    if (this.head === null) return 0;
+    let counter = 1;
+    let temp = this.head;
+    while (temp.nextNode !== null) {
+      temp = temp.nextNode;
+      counter += 1;
+    }
+    return counter;
+  }
+
+  get tail() {
+    if (this.head === null) return null;
+    let temp = this.head;
+    while (temp.nextNode !== null) {
+      temp = temp.nextNode;
+    }
+    return temp;
+  }
+
+  at(index) {
+    if (this.head === null) return "List is empty!";
+    if (index > this.size) return "Went beyond the end of the list!";
+    let counter = 0;
+    let temp = this.head;
+    while (temp.nextNode !== null) {
+      if (index === counter) break;
+      temp = temp.nextNode;
+      counter++;
+    }
+    return temp.value;
+  }
+
+  pop() {
+    if (this.head === null) return "List is empty, nothing to pop!";
+    if (this.size === 1) {
+      this.head = null;
+      return "List is now empty!";
+    }
+    const lastElem = this.tail;
+    let temp = this.head;
+    while (temp.nextNode !== lastElem) {
+      temp = temp.nextNode;
+    }
+    temp.nextNode = null;
+    return `${lastElem.value} removed`;
+  }
+
+  contains(value) {
+    if (this.head === null) return "List is empty!";
+    if (value === this.tail.value) return true;
+    let temp = this.head;
+    while (temp.nextNode !== null) {
+      if (value === temp.value) return true;
+      temp = temp.nextNode;
+    }
+    return false;
   }
 }
 
-const linkedList = new LinkedList();
+const newLinkedList = new LinkedList();
 
-console.log(linkedList.head);
+newLinkedList.append("Poop 1");
+newLinkedList.append("Poop 2");
+newLinkedList.append("Poop 3");
+newLinkedList.append("Poop 4");
+newLinkedList.append("Poop 5");
+newLinkedList.prepend("Poop 0");
 
-linkedList.append("poop");
-
-console.log(linkedList.head);
+console.log(newLinkedList.contains("Poop 8"));
