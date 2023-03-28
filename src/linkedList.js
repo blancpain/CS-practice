@@ -1,5 +1,3 @@
-class LinkedList {}
-
 class Node {
   constructor(value = null, nextNode = null) {
     this._value = value;
@@ -23,6 +21,19 @@ class Node {
   }
 }
 
-const nodeOne = new Node();
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+  append(value) {
+    return new Node(value, null);
+  }
+}
 
-console.log(nodeOne.value);
+const linkedList = new LinkedList();
+
+console.log(linkedList.head);
+
+linkedList.append("poop");
+
+console.log(linkedList.head);
