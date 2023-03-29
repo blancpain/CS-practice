@@ -72,7 +72,7 @@ class LinkedList {
       temp = temp.nextNode;
       counter++;
     }
-    return temp.value;
+    return temp;
   }
 
   pop() {
@@ -116,16 +116,61 @@ class LinkedList {
     return null;
   }
 
-  get toString() { }
+  get toString() {
+    if (this.head === null) return "List is empty!";
+    let temp = this.head;
+    let output = "";
+    while (temp.nextNode !== null) {
+      output += `( ${temp.value} ) -> `;
+      temp = temp.nextNode;
+    }
+    output += `( ${temp.value} ) -> `;
+    output += "null";
+    return output;
+  }
+
+  insertAt(value, index) {
+    if (this.head === null) this.prepend(value);
+    if (index > this.size) this.append(value);
+    const currentNodeAtIndex = this.at(index);
+    let temp = this.head;
+    while (temp.nextNode !== currentNodeAtIndex) {
+      temp = temp.nextNode;
+    }
+    temp.nextNode = new Node(value, currentNodeAtIndex);
+  }
+
+  removeAt(index) {
+    if (this.head === null) return "Nothing to remove!";
+    if (this.size === 1) {
+      const removedElement = this.head;
+      this.head = null;
+      return `Removed ${removedElement.value}.`;
+    }
+    // if we are removing last element or if index goes beyond size just pop
+    if (this.at(index) === this.tail || index > this.size) {
+      const removedElement = this.tail;
+      this.pop();
+      return `Removed ${removedElement.value}.`;
+    }
+    const nodeToBeRemoved = this.at(index);
+    let temp = this.head;
+    while (temp.nextNode !== nodeToBeRemoved) {
+      temp = temp.nextNode;
+    }
+    temp.nextNode = temp.nextNode.nextNode;
+    return `Removed ${nodeToBeRemoved.value}.`;
+  }
 }
 
 const newLinkedList = new LinkedList();
 
-newLinkedList.append("Poop 1");
-newLinkedList.append("Poop 2");
-newLinkedList.append("Poop 3");
-newLinkedList.append("Poop 4");
-newLinkedList.append("Poop 5");
-newLinkedList.prepend("Poop 0");
+newLinkedList.prepend("Elem 0");
+newLinkedList.append("Elem 1");
+newLinkedList.append("Elem 2");
+newLinkedList.append("Elem 3");
+newLinkedList.append("Elem 4");
+newLinkedList.insertAt("Elem BETWEEN 2 and 3", 3);
 
-console.log(newLinkedList.find("Poop 9"));
+console.log(newLinkedList.removeAt(7));
+console.log(newLinkedList.toString);
