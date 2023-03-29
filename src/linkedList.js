@@ -100,6 +100,23 @@ class LinkedList {
     }
     return false;
   }
+
+  find(value) {
+    if (this.head === null) return "List is empty!";
+    let temp = this.head;
+    let counter = 0;
+    while (temp.nextNode !== null) {
+      if (value === temp.value) break;
+      temp = temp.nextNode;
+      counter++;
+    }
+
+    if (value === temp.value) return counter;
+
+    return null;
+  }
+
+  get toString() { }
 }
 
 const newLinkedList = new LinkedList();
@@ -111,4 +128,4 @@ newLinkedList.append("Poop 4");
 newLinkedList.append("Poop 5");
 newLinkedList.prepend("Poop 0");
 
-console.log(newLinkedList.contains("Poop 8"));
+console.log(newLinkedList.find("Poop 9"));
