@@ -27,7 +27,7 @@ function merge(arrLeft, arrRight) {
   return mergedArr;
 }
 
-function mergeSort(arr) {
+export default function mergeSort(arr) {
   if (arr.length <= 1) {
     return arr;
   }
@@ -37,5 +37,3 @@ function mergeSort(arr) {
 
   return merge(mergeSort(arrLeft), mergeSort(arrRight));
 }
-
-console.log(mergeSort([1, -3, 1])); // [-3, 1, 1]
