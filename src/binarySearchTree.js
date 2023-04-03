@@ -119,6 +119,9 @@ class Tree {
 
           if (nextBiggest === replacementNode) {
             node.left = nextBiggest;
+          } else {
+            nextBiggest.left = node.left.left;
+            node.left = nextBiggest;
           }
           node.left.left = tempLeft;
         } else {
@@ -145,6 +148,9 @@ class Tree {
 
           if (nextBiggest === replacementNode) {
             node.right = nextBiggest;
+          } else {
+            node.right = replacementNode;
+            node.right.right = nextBiggest;
           }
           node.right.left = tempLeft;
         } else {
@@ -181,11 +187,7 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
-tr.insert(255);
-tr.insert(224);
-tr.insert(40);
-tr.insert(260);
-tr.delete(255);
+tr.delete(8);
 console.log(" ");
 console.log("-------------------------");
 console.log(" ");
