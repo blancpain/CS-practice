@@ -88,6 +88,22 @@ class Tree {
 
     // helper function so that we can use this.root
     const deleteRecursive = (node, value) => {
+      // handle case where node to be deleted is the root
+      if (value === node.data) {
+        const temp = new Node(null);
+        temp.left = this.root;
+        const replacementNode =
+          countChildren(this.root) === 2
+            ? minValue(this.root.right)
+            : this.root.right || this.root.left;
+        if (replacementNode !== null) {
+          deleteRecursive(this.root, replacementNode.data);
+          temp.left = replacementNode;
+          replacementNode.left = this.root.left;
+          replacementNode.right = this.root.right;
+        }
+        this.root = temp.left;
+      }
       if (value < node.data) {
         if (node.left.data === value && countChildren(node.left) === 0) {
           // eslint-disable-next-line no-param-reassign
