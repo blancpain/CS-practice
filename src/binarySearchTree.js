@@ -65,28 +65,112 @@ class Tree {
     // start the recursion at the root node
     insertRecursive(this.root, val);
   }
+
+  delete(val) {
+    // helper function to check if node has children
+    // returns 0 if no children, 1 if one child and
+    // 2 if two children
+    const countChildren = (node) => (node.left ? 1 : 0) + (node.right ? 1 : 0);
+
+    // helper function to find minimum value given a root node
+    const minValue = (node) => {
+      // if the node doesn't have any children
+      // or no children to the left then it's the smallest
+      if (countChildren(node) === 0) return node;
+      if (node.left === null) return node;
+
+      let smallest = node.left;
+      while (smallest.left !== null) {
+        smallest = smallest.left;
+      }
+      return smallest;
+    };
+
+    // helper function so that we can use this.root
+    const deleteRecursive = (node, value) => {
+      if (value < node.data) {
+        if (node.left.data === value && countChildren(node.left) === 0) {
+          // eslint-disable-next-line no-param-reassign
+          node.left = null;
+        } else if (node.left.data === value && countChildren(node.left) === 1) {
+          // eslint-disable-next-line no-param-reassign
+          node.left =
+            node.left.left === null ? node.left.right : node.left.left;
+        } else if (node.left.data === value && countChildren(node.left) === 2) {
+          const nextBiggest = node.left.right;
+          const replacementNode = minValue(nextBiggest);
+          const tempLeft = node.left.left;
+
+          if (nextBiggest === replacementNode) {
+            node.left = nextBiggest;
+          }
+          node.left.left = tempLeft;
+        } else {
+          deleteRecursive(node.left, value);
+        }
+      } else if (value > node.data) {
+        if (node.right.data === value && countChildren(node.right) === 0) {
+          // eslint-disable-next-line no-param-reassign
+          node.right = null;
+        } else if (
+          node.right.data === value &&
+          countChildren(node.right) === 1
+        ) {
+          // eslint-disable-next-line no-param-reassign
+          node.right =
+            node.right.right === null ? node.right.left : node.right.right;
+        } else if (
+          node.right.data === value &&
+          countChildren(node.right) === 2
+        ) {
+          const nextBiggest = node.right.right;
+          const replacementNode = minValue(nextBiggest);
+          const tempLeft = node.right.left;
+
+          if (nextBiggest === replacementNode) {
+            node.right = nextBiggest;
+          }
+          node.right.left = tempLeft;
+        } else {
+          deleteRecursive(node.right, value);
+        }
+      }
+    };
+    deleteRecursive(this.root, val);
+  }
+
+  // utility function to display tree
+  prettyPrint(node, prefix = "", isLeft = true) {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      this.prettyPrint(
+        node.right,
+        `${prefix}${isLeft ? "│   " : "    "}`,
+        false
+      );
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  }
 }
 
-// sort array and remove duplicates to prepare BST
+// construct array, sort it and remove duplicates to prepare BST
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const sortedArr = mergeSort(arr);
 const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
-// utility function to display tree
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-tr.insert(6);
-tr.insert(6);
-prettyPrint(tr.root);
+tr.prettyPrint(tr.root);
+tr.insert(255);
+tr.insert(224);
+tr.insert(40);
+tr.insert(260);
+tr.delete(255);
+console.log(" ");
+console.log("-------------------------");
+console.log(" ");
+tr.prettyPrint(tr.root);
