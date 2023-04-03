@@ -96,12 +96,10 @@ class Tree {
           countChildren(this.root) === 2
             ? minValue(this.root.right)
             : this.root.right || this.root.left;
-        if (replacementNode !== null) {
-          deleteRecursive(this.root, replacementNode.data);
-          temp.left = replacementNode;
-          replacementNode.left = this.root.left;
-          replacementNode.right = this.root.right;
-        }
+        deleteRecursive(this.root, replacementNode.data);
+        temp.left = replacementNode;
+        replacementNode.left = this.root.left;
+        replacementNode.right = this.root.right;
         this.root = temp.left;
       }
       if (value < node.data) {
@@ -161,6 +159,21 @@ class Tree {
     deleteRecursive(this.root, val);
   }
 
+  find(value) {
+    const findRecursive = (node, val) => {
+      if (val === node.data) {
+        return node;
+      } else if (val < node.data) {
+        if (node.left === val) return node.left;
+        else findRecursive(node.left, val);
+      } else if (val > node.data) {
+        if (node.right === val) return node.right;
+        else findRecursive(node.right, val);
+      }
+    };
+    findRecursive(this.root, value);
+  }
+
   // utility function to display tree
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
@@ -187,8 +200,4 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
-tr.delete(8);
-console.log(" ");
-console.log("-------------------------");
-console.log(" ");
-tr.prettyPrint(tr.root);
+console.log(tr.find(5));
