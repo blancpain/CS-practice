@@ -165,11 +165,12 @@ class Tree {
         return node;
       } else if (val < node.data) {
         if (node.left && node.left === val) return node.left;
-        else return findRecursive(node.left, val);
+        else if (node.left) return findRecursive(node.left, val);
       } else if (val > node.data) {
         if (node.right && node.right === val) return node.right;
-        else return findRecursive(node.right, val);
+        else if (node.right) return findRecursive(node.right, val);
       }
+      return null;
     };
     findRecursive(this.root, value);
   }
