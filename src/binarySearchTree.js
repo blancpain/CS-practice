@@ -164,15 +164,15 @@ class Tree {
       if (val === node.data) {
         return node;
       } else if (val < node.data) {
-        if (node.left && node.left === val) return node.left;
+        if (node.left && node.left.data === val) return node.left;
         else if (node.left) return findRecursive(node.left, val);
       } else if (val > node.data) {
-        if (node.right && node.right === val) return node.right;
+        if (node.right && node.right.data === val) return node.right;
         else if (node.right) return findRecursive(node.right, val);
       }
       return null;
     };
-    findRecursive(this.root, value);
+    return findRecursive(this.root, value);
   }
 
   // utility function to display tree
@@ -201,4 +201,4 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
-console.log(tr.find(4));
+console.log(tr.find(8));
