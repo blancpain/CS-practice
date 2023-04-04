@@ -184,23 +184,96 @@ class Tree {
     return findRecursive(this.root, value);
   }
 
+  // levelOrder implementation using iteration
+
+  // levelOrder(cb) {
+  //   if (this.root === null) return;
+  //   const queue = [this.root];
+  //   const finalArr = [];
+  //
+  //   while (queue.length >= 1) {
+  //     const currentNode = queue[0];
+  //     if (cb) cb(currentNode.data);
+  //     finalArr.push(currentNode.data);
+  //     if (currentNode.left) {
+  //       queue.push(currentNode.left);
+  //     }
+  //     if (currentNode.right) {
+  //       queue.push(currentNode.right);
+  //     }
+  //     queue.shift();
+  //   }
+  //   if (!cb) return finalArr;
+  // }
+
+  // levelOrder implementation using recursion
   levelOrder(cb) {
-    if (this.root === null) return;
     const queue = [this.root];
     const finalArr = [];
-
-    while (queue.length >= 1) {
-      const currentNode = queue[0];
-      if (cb) cb(currentNode.data);
+    const levelOrderRecursive = (queue, finalArr, callback) => {
+      if (queue.length < 1) {
+        return;
+      }
+      const currentNode = queue.shift();
       finalArr.push(currentNode.data);
+      // if cb is provided use that...
+      if (callback) callback(currentNode.data);
       if (currentNode.left) {
         queue.push(currentNode.left);
       }
       if (currentNode.right) {
         queue.push(currentNode.right);
       }
-      queue.shift();
-    }
+      levelOrderRecursive(queue, finalArr, callback);
+    };
+
+    levelOrderRecursive(queue, finalArr, cb);
+
+    if (!cb) return finalArr;
+  }
+
+  preorder(cb) {
+    const finalArr = [];
+
+    const preorderRecursive = (node, finalArr, cb) => {
+      finalArr.push(node.data);
+      cb(node.data);
+      if (node.left) preorderRecursive(node.left, finalArr, cb);
+      if (node.right) preorderRecursive(node.right, finalArr, cb);
+    };
+
+    preorderRecursive(this.root, finalArr, cb);
+
+    if (!cb) return finalArr;
+  }
+
+  inorder(cb) {
+    const finalArr = [];
+
+    const inorderRecursive = (node, finalArr, cb) => {
+      if (node.left) inorderRecursive(node.left, finalArr, cb);
+      finalArr.push(node.data);
+      cb(node.data);
+      if (node.right) inorderRecursive(node.right, finalArr, cb);
+    };
+
+    inorderRecursive(this.root, finalArr, cb);
+
+    if (!cb) return finalArr;
+  }
+
+  postorder(cb) {
+    const finalArr = [];
+
+    const postorderRecursive = (node, finalArr, cb) => {
+      if (node.left) postorderRecursive(node.left, finalArr, cb);
+      if (node.right) postorderRecursive(node.right, finalArr, cb);
+      finalArr.push(node.data);
+      cb(node.data);
+    };
+
+    postorderRecursive(this.root, finalArr, cb);
+
     if (!cb) return finalArr;
   }
 
@@ -230,3 +303,5 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
+
+tr.postorder(console.log);
