@@ -116,11 +116,14 @@ class Tree {
           const tempLeft = node.left.left;
 
           if (nextBiggest === replacementNode) {
+            // eslint-disable-next-line no-param-reassign
             node.left = nextBiggest;
           } else {
             nextBiggest.left = node.left.left;
+            // eslint-disable-next-line no-param-reassign
             node.left = nextBiggest;
           }
+          // eslint-disable-next-line no-param-reassign
           node.left.left = tempLeft;
         } else {
           deleteRecursive(node.left, value);
@@ -145,11 +148,15 @@ class Tree {
           const tempLeft = node.right.left;
 
           if (nextBiggest === replacementNode) {
+            // eslint-disable-next-line no-param-reassign
             node.right = nextBiggest;
           } else {
+            // eslint-disable-next-line no-param-reassign
             node.right = replacementNode;
+            // eslint-disable-next-line no-param-reassign
             node.right.right = nextBiggest;
           }
+          // eslint-disable-next-line no-param-reassign
           node.right.left = tempLeft;
         } else {
           deleteRecursive(node.right, value);
@@ -163,16 +170,38 @@ class Tree {
     const findRecursive = (node, val) => {
       if (val === node.data) {
         return node;
-      } else if (val < node.data) {
+      }
+      if (val < node.data) {
         if (node.left && node.left.data === val) return node.left;
-        else if (node.left) return findRecursive(node.left, val);
-      } else if (val > node.data) {
+        if (node.left) return findRecursive(node.left, val);
+      }
+      if (val > node.data) {
         if (node.right && node.right.data === val) return node.right;
-        else if (node.right) return findRecursive(node.right, val);
+        if (node.right) return findRecursive(node.right, val);
       }
       return null;
     };
     return findRecursive(this.root, value);
+  }
+
+  levelOrder(cb) {
+    if (this.root === null) return;
+    const queue = [this.root];
+    const finalArr = [];
+
+    while (queue.length >= 1) {
+      const currentNode = queue[0];
+      if (cb) cb(currentNode.data);
+      finalArr.push(currentNode.data);
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+      queue.shift();
+    }
+    if (!cb) return finalArr;
   }
 
   // utility function to display tree
@@ -201,4 +230,3 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
-console.log(tr.find(8));
