@@ -185,7 +185,6 @@ class Tree {
   }
 
   // levelOrder implementation using iteration
-
   // levelOrder(cb) {
   //   if (this.root === null) return;
   //   const queue = [this.root];
@@ -277,6 +276,48 @@ class Tree {
     if (!cb) return finalArr;
   }
 
+  height(node) {
+    if (!node) return -1;
+
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+  }
+
+  depth(givenNode) {
+    const depthRecursive = (targetNode, node) => {
+      if (!node) return -1;
+      if (targetNode === node) return 1;
+
+      const leftDepth = depthRecursive(targetNode, node.left);
+      const rightDepth = depthRecursive(targetNode, node.right);
+
+      if (leftDepth === -1 && rightDepth === -1) {
+        return -1;
+      }
+      return 1 + Math.max(leftDepth, rightDepth);
+    };
+
+    return depthRecursive(givenNode, this.root);
+  }
+
+  isBalanced() {
+    const isBalancedRec = (root) => {
+      if (!root) return true;
+
+      const leftH = this.height(root.left);
+      const rightH = this.height(root.right);
+
+      if (Math.abs(leftH - rightH) > 1) {
+        return false;
+      }
+      return isBalancedRec(root.left) && isBalancedRec(root.right);
+    };
+
+    return isBalancedRec(this.root);
+  }
+
   // utility function to display tree
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
@@ -303,5 +344,4 @@ const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
 tr.prettyPrint(tr.root);
-
-tr.postorder(console.log);
+console.log(tr.isBalanced());

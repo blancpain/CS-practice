@@ -172,5 +172,4 @@ newLinkedList.append("Elem 3");
 newLinkedList.append("Elem 4");
 newLinkedList.insertAt("Elem BETWEEN 2 and 3", 3);
 
-console.log(newLinkedList.removeAt(7));
 console.log(newLinkedList.toString);
