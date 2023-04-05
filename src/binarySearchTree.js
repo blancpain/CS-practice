@@ -344,32 +344,34 @@ class Tree {
 // DRIVER
 
 // construct array, sort it and remove duplicates to prepare BST
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const sortedArr = mergeSort(arr);
-const sortedArrUnique = [...new Set(sortedArr)];
-const tr = new Tree(sortedArrUnique);
+// const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const sortedArr = mergeSort(arr);
+// const sortedArrUnique = [...new Set(sortedArr)];
+// const tr = new Tree(sortedArrUnique);
 
 // test it
-console.log(tr.isBalanced()); // true
-tr.insert(200);
-tr.insert(201);
-tr.insert(203);
-tr.insert(204);
-tr.insert(206);
-tr.insert(202);
-tr.insert(208);
-tr.insert(230);
-console.log("-------------------------------");
-tr.prettyPrint(tr.root);
-console.log(tr.isBalanced()); // false
-console.log("-------------------------------");
-tr.rebalance();
-tr.prettyPrint(tr.root);
-console.log(tr.isBalanced()); // true
+// console.log(tr.isBalanced()); // true
+// tr.insert(200);
+// tr.insert(201);
+// tr.insert(203);
+// tr.insert(204);
+// tr.insert(206);
+// tr.insert(202);
+// tr.insert(208);
+// tr.insert(230);
+// console.log("-------------------------------");
+// tr.prettyPrint(tr.root);
+// console.log(tr.isBalanced()); // false
+// console.log("-------------------------------");
+// tr.rebalance();
+// tr.prettyPrint(tr.root);
+// console.log(tr.isBalanced()); // true
+//
+// console.log(tr.levelOrder());
+// console.log(tr.preorder());
+// console.log(tr.postorder());
+// console.log(tr.inorder());
+//
+// console.log(tr.find(208));
 
-console.log(tr.levelOrder());
-console.log(tr.preorder());
-console.log(tr.postorder());
-console.log(tr.inorder());
-
-console.log(tr.find(208));
+export { Node, Tree };
