@@ -236,7 +236,7 @@ class Tree {
 
     const preorderRecursive = (node, finalArr, cb) => {
       finalArr.push(node.data);
-      cb(node.data);
+      if (cb) cb(node.data);
       if (node.left) preorderRecursive(node.left, finalArr, cb);
       if (node.right) preorderRecursive(node.right, finalArr, cb);
     };
@@ -252,7 +252,7 @@ class Tree {
     const inorderRecursive = (node, finalArr, cb) => {
       if (node.left) inorderRecursive(node.left, finalArr, cb);
       finalArr.push(node.data);
-      cb(node.data);
+      if (cb) cb(node.data);
       if (node.right) inorderRecursive(node.right, finalArr, cb);
     };
 
@@ -268,7 +268,7 @@ class Tree {
       if (node.left) postorderRecursive(node.left, finalArr, cb);
       if (node.right) postorderRecursive(node.right, finalArr, cb);
       finalArr.push(node.data);
-      cb(node.data);
+      if (cb) cb(node.data);
     };
 
     postorderRecursive(this.root, finalArr, cb);
@@ -318,6 +318,12 @@ class Tree {
     return isBalancedRec(this.root);
   }
 
+  rebalance() {
+    const newArray = this.inorder();
+    const newArrayLen = newArray.length;
+    this.root = this.buildTree(newArray, 0, newArrayLen - 1);
+  }
+
   // utility function to display tree
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
@@ -343,5 +349,16 @@ const sortedArr = mergeSort(arr);
 const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
+tr.insert(200);
+tr.insert(201);
+tr.insert(203);
+tr.insert(204);
+tr.insert(206);
+tr.insert(202);
+tr.insert(208);
+tr.insert(230);
+console.log("-------------------------------");
 tr.prettyPrint(tr.root);
-console.log(tr.isBalanced());
+console.log("-------------------------------");
+tr.rebalance();
+tr.prettyPrint(tr.root);
