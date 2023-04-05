@@ -39,7 +39,6 @@ class Tree {
         // if the value is less than the current node's data, go left
         if (!node.left) {
           // if there is no left child, create a new node here
-
           // eslint-disable-next-line no-param-reassign
           node.left = new Node(value);
         } else {
@@ -50,7 +49,6 @@ class Tree {
         // if the value is greater than the current node's data, go right
         if (!node.right) {
           // if there is no right child, create a new node here
-
           // eslint-disable-next-line no-param-reassign
           node.right = new Node(value);
         } else {
@@ -343,12 +341,16 @@ class Tree {
   }
 }
 
+// DRIVER
+
 // construct array, sort it and remove duplicates to prepare BST
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const sortedArr = mergeSort(arr);
 const sortedArrUnique = [...new Set(sortedArr)];
 const tr = new Tree(sortedArrUnique);
 
+// test it
+console.log(tr.isBalanced()); // true
 tr.insert(200);
 tr.insert(201);
 tr.insert(203);
@@ -359,6 +361,15 @@ tr.insert(208);
 tr.insert(230);
 console.log("-------------------------------");
 tr.prettyPrint(tr.root);
+console.log(tr.isBalanced()); // false
 console.log("-------------------------------");
 tr.rebalance();
 tr.prettyPrint(tr.root);
+console.log(tr.isBalanced()); // true
+
+console.log(tr.levelOrder());
+console.log(tr.preorder());
+console.log(tr.postorder());
+console.log(tr.inorder());
+
+console.log(tr.find(208));
