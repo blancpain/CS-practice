@@ -373,5 +373,3 @@ class Tree {
 // console.log(tr.inorder());
 //
 // console.log(tr.find(208));
-
-export { Node, Tree };
